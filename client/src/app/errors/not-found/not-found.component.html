@@ -1,4 +1,14 @@
 <div class="container">
     <h1>Not found</h1>
-    <button class="btn btn-info btn-lg" routerLink="/">Return to home page</button>
+
+    <ng-container *ngIf="accountService.currentUser$  | async; else notAuthenticated">
+    
+        <button class="btn btn-info btn-lg" routerLink="/members">Return to home page</button>
+        
+    </ng-container>
+    <ng-template #notAuthenticated>
+        <button class="btn btn-info btn-lg" routerLink="/members">Return to home page</button>
+    </ng-template>
+
+   
 </div>
