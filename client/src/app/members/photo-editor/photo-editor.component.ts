@@ -7,7 +7,6 @@ import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { MembersService } from 'src/app/_services/members.service';
 import { environment } from 'src/environments/environment';
-
 @Component({
   selector: 'app-photo-editor',
   templateUrl: './photo-editor.component.html',
@@ -19,7 +18,6 @@ export class PhotoEditorComponent implements OnInit {
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
   user: User | undefined;
-
   constructor(private accountService: AccountService, private memberService: MembersService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
@@ -27,15 +25,12 @@ export class PhotoEditorComponent implements OnInit {
       }
     })
    }
-
   ngOnInit(): void {
     this.initializeUploader();
   }
-
   fileOverBase(e: any) {
     this.hasBaseDropZoneOver = e;
   }
-
   setMainPhoto(photo: Photo) {
     this.memberService.setMainPhoto(photo.id).subscribe({
       next: () => {
@@ -51,7 +46,6 @@ export class PhotoEditorComponent implements OnInit {
       }
     })
   }
-
   deletePhoto(photoId: number) {
     this.memberService.deletePhoto(photoId).subscribe({
       next: _ => {
@@ -61,7 +55,6 @@ export class PhotoEditorComponent implements OnInit {
       }
     })
   }
-
   initializeUploader() {
     this.uploader = new FileUploader({
       url: this.baseUrl + 'users/add-photo',
@@ -72,17 +65,19 @@ export class PhotoEditorComponent implements OnInit {
       autoUpload: false,
       maxFileSize: 10 * 1024 * 1024
     });
-
     this.uploader.onAfterAddingFile = (file) => {
       file.withCredentials = false
     }
-
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
         const photo = JSON.parse(response);
         this.member?.photos.push(photo);
+        if (photo.isMain && this.user && this.member) {
+          this.user.photoUrl = photo.url;
+          this.member.photoUrl = photo.url;
+          this.accountService.setCurrentUser(this.user);
+        }
       }
     }
   }
-
 }
