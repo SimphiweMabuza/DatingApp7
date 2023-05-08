@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <strong>Last active:</strong>
-                    <p>{{member.lastActive + 'Z' | timeago}}</p>
+                    <p>{{member.lastActive | timeago}}</p>
                 </div>
                 <div>
                     <strong>Member since:</strong>
@@ -35,9 +35,7 @@
                     class="btn btn-success col-12">Save changes</button>
             </div>
         </div>
-
     </div>
-
     <div class="col-8">
         <tabset class="member-tabset">
             <tab heading="About {{member.knownAs}}">
@@ -68,7 +66,6 @@
                         <input type="text" [(ngModel)]="member.country" name="country" class="form-control mx-2">
                     </div>
                 </form>
-
             </tab>
             <tab heading="Edit Photos">
                 <app-photo-editor [member]="member"></app-photo-editor>
