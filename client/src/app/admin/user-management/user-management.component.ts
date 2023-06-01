@@ -15,6 +15,7 @@ export class UserManagementComponent implements OnInit {
   availableRoles = [
     'Admin',
     'Moderator',
+    'VIP',
     'Member'
   ]
 

@@ -1,4 +1,3 @@
-//CSIP6833 
 //SP MABUZA (2016363729)
 using API.Data;
 using API.Entities;
